@@ -1,6 +1,6 @@
 use crate::config::Config;
 use anyhow::Context;
-use axum::Router;
+use axum::{http::header::AUTHORIZATION, Router};
 use sqlx::PgPool;
 use std::{
     net::{Ipv4Addr, SocketAddr},
@@ -41,7 +41,10 @@ pub use error::{Error, ResultExt};
 
 pub type Result<T, E = Error> = std::result::Result<T, E>;
 
-use tower_http::{timeout::TimeoutLayer, trace::TraceLayer};
+use tower_http::{
+    catch_panic::CatchPanicLayer, compression::CompressionLayer,
+    sensitive_headers::SetSensitiveHeadersLayer, timeout::TimeoutLayer, trace::TraceLayer,
+};
 
 /// The core type through which handler functions can access common API state.
 ///
@@ -99,8 +102,11 @@ fn api_router(api_context: ApiContext) -> Router {
         .merge(articles::router())
         // Enables logging. Use `RUST_LOG=tower_http=debug`
         .layer((
-            TraceLayer::new_for_http(),
+            SetSensitiveHeadersLayer::new([AUTHORIZATION]),
+            CompressionLayer::new(),
+            TraceLayer::new_for_http().on_failure(()),
             TimeoutLayer::new(Duration::from_secs(30)),
+            CatchPanicLayer::new(),
         ))
         .with_state(api_context)
 }

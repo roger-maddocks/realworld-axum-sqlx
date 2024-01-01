@@ -27,7 +27,13 @@ argon2 = "0.5"
 
 # axum builds on the types in Tower
 tower = "0.4.11"
-tower-http = { version = "0.5.0", features = ["trace", "timeout"] }
+tower-http = { version = "0.5.0", features = [
+    "catch-panic",
+    "compression-full",
+    "sensitive-headers",
+    "timeout",
+    "trace",
+] }
 
 jwt = "0.15.0"
 hmac = "0.11.0"
