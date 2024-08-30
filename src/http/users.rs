@@ -16,6 +16,7 @@ pub(crate) fn router() -> Router<ApiContext> {
         .route("/api/users", post(create_user))
         .route("/api/users/login", post(login_user))
         .route("/api/user", get(get_current_user).put(update_user))
+        // .route("/api/roster", get(get_roster))
 }
 
 /// A wrapper type for all requests/responses from these routes.
@@ -244,3 +245,4 @@ async fn verify_password(password: String, password_hash: String) -> Result<()> 
     .await
     .context("panic in verifying password hash")?
 }
+
