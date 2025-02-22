@@ -8,6 +8,7 @@ use axum::http::header::AUTHORIZATION;
 use axum::http::HeaderValue;
 use hmac::{Hmac, NewMac};
 use jwt::{SignWithKey, VerifyWithKey};
+use reqwest::Body;
 use sha2::Sha384;
 use time::OffsetDateTime;
 use uuid::Uuid;
@@ -137,6 +138,7 @@ impl MaybeAuthUser {
     pub fn user_id(&self) -> Option<Uuid> {
         self.0.as_ref().map(|auth_user| auth_user.user_id)
     }
+
 }
 
 // tower-http has a `RequireAuthorizationLayer` but it's useless for practical applications,
@@ -188,3 +190,37 @@ where
         ))
     }
 }
+
+//
+// #[derive(serde::Serialize, serde::Deserialize, Clone)]
+// struct ReportBounds {
+//     pub start_week: u64,
+//     pub end_week: u64,
+// }
+//
+// impl ReportBounds {
+//     pub fn start_week(&self) -> Option<u64> {Some(self.start_week)}
+//     pub fn end_week(&self) -> Option<u64> {Some(self.end_week)}
+// }
+
+// #[async_trait]
+// impl<S> FromRequestParts<S> for ReportBounds
+// where
+//     S: Send + Sync,
+//     // ApiContext: FromRef<S>,
+// {
+//     type Rejection = Error;
+//
+//     async fn from_request_parts(parts: &mut Body, state: &S) -> Result<Self, Self::Rejection> {
+//         Ok(Self(parts.
+//         // let ctx: ApiContext = ApiContext::from_ref(state);
+//         //
+//         // Ok(Self(
+//         //     parts
+//         //         .headers
+//         //         .get(AUTHORIZATION)
+//         //         .map(|auth_header| AuthUser::from_authorization(&ctx, auth_header))
+//         //         .transpose()?,
+//         // ))
+//     }
+// }

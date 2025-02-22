@@ -1,3 +1,43 @@
+# yahoo_fantasy_api
+Implementation of Yahoo api prioritizing Fantasy Hockey
+
+# Technical Debt
+
+### Collision Report
+Weekly\
+Yearly\
+Trade Targets
+
+### Week Preview
+Player Percentages- Which players are colliding on 1/2/3 games this week?
+
+
+### Head-to-Head Player Trends
+Last X timeframe vs last x*2 time frame\
+Road vs. Home
+
+### Free Agency Targets
+Players on Front/Back heavy teams\
+Players that play 3 out of next 4 days
+ 
+### What-if Scores
+Left Roster alone\
+Absolute optimization
+
+### Data Solutions Needed 
+Update player id first time players is seen\
+Get Daily stat updates without using paid service
+
+
+
+### Notes
+Same points scored 30 games of heating up is much better than 30 games cooling down.\
+3 years of improving performance at the same point value is better than 3 years of declining performance
+
+
+
+
+
 # realworld-axum-sqlx
 
 A Rust implementation of the [Realworld] demo app spec showcasing the use of the [Axum] web framework and [SQLx]

@@ -36,6 +36,8 @@ mod types;
 mod articles;
 mod profiles;
 mod users;
+mod clients;
+mod reports;
 
 pub use error::{Error, ResultExt};
 
@@ -45,6 +47,7 @@ use tower_http::{
     catch_panic::CatchPanicLayer, compression::CompressionLayer,
     sensitive_headers::SetSensitiveHeadersLayer, timeout::TimeoutLayer, trace::TraceLayer,
 };
+use crate::http::reports::report;
 
 /// The core type through which handler functions can access common API state.
 ///
@@ -100,6 +103,7 @@ fn api_router(api_context: ApiContext) -> Router {
         .merge(users::router())
         .merge(profiles::router())
         .merge(articles::router())
+        .merge(report::router())
         // Enables logging. Use `RUST_LOG=tower_http=debug`
         .layer((
             SetSensitiveHeadersLayer::new([AUTHORIZATION]),
